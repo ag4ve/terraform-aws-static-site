@@ -44,23 +44,7 @@ data "aws_iam_policy_document" "read_static_site_bucket" {
 #######################################
 resource "aws_s3_bucket" "static_site" {
   bucket = var.domain
-}
-
-#######################################
-# S3 Bucket ACL
-#######################################
-resource "aws_s3_bucket_acl" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
   acl    = "private"
-}
-
-resource "aws_s3_bucket_ownership_controls" "static_site" {
-  bucket = aws_s3_bucket.static_site.id
-  rule {
-    object_ownership = "BucketOwnerEnforced"
-  }
-  # Add just this depends_on condition
-  depends_on = [aws_s3_bucket_acl.static_site]
 }
 
 #######################################
